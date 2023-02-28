@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Német igék gyakorlása</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js" integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <fieldset id="fajl">
+        <legend>Fájl</legend>
+        <input type="file" name="inputfile" id="inputfile" onchange="read()">
+        <script>
+            var csv = null;
+            var list = null;
+            var feladatid = null;
+            var helyes = 0;
+            var helytelen = 0;
+            var checked = false;
+            var hibaszam = 0;
+            var osszesfeladat = 0;
+            var voltfeladatid = [];
+            function read() {
+            var file = new FileReader();
+            file.addEventListener("loadend", () => {
+                csv = file.result;
+                list = Papa.parse(csv);
+                list.data.pop();
+                helyes = 0;
+                helytelen = 0;
+                checked = false;
+                hibaszam = 0;
+                document.getElementById("feladat").style.display = "block";
+                document.getElementById("osszesen").innerHTML = list.data.length - 1;
+                osszesfeladat = list.data.length - 1;
+                feladatid = getfeladatid();
+                shownext();
+                showscore();
+            });
+            file.readAsText(document.getElementById("inputfile").files[0]); }
+            function getfeladatid() {
+                if (helyes + helytelen == osszesfeladat) {
+                    alert("A végére értél! Az OK-ra kattintva megtekintheted eredményedet!");
+                    document.getElementById("feladat").style.display = "none";
+                    return 0;
+                    } else {
+                var jo = false;
+                while (jo == false) {
+                    var feladatid = Math.floor(Math.random() * (list.data.length));
+                    while (feladatid == 0) {
+                        feladatid = Math.floor(Math.random() * (list.data.length));
+                    }
+                    if (!voltfeladatid.includes(feladatid)) {
+                        jo = true;
+                        voltfeladatid.push(feladatid);
+                    }
+                }
+                return feladatid; }
+            }
+            function shownext() {
+                if (helyes + helytelen == osszesfeladat) {
+                    alert("A végére értél! Az OK-ra kattintva megtekintheted eredményedet!");
+                    document.getElementById("feladat").style.display = "none";
+                } else {
+                document.getElementById("szo").innerHTML = list.data[feladatid][4];
+                document.getElementById("inf").style.backgroundColor = "white";
+                document.getElementById("e3").style.backgroundColor = "white";
+                document.getElementById("pra").style.backgroundColor = "white";
+                document.getElementById("per").style.backgroundColor = "white";
+                document.getElementById("inf").value = "";
+                document.getElementById("e3").value = "";
+                document.getElementById("pra").value = "";
+                document.getElementById("per").value = "";
+                hibaszam = 0;
+                document.getElementById("infhelyes").innerHTML = "";
+                document.getElementById("e3helyes").innerHTML = "";
+                document.getElementById("prahelyes").innerHTML = "";
+                document.getElementById("perhelyes").innerHTML = ""; }
+            }
+            function showscore() {
+                document.getElementById("megoldott").innerHTML = helyes + helytelen;
+                document.getElementById("osszeshelyesszazalek").innerHTML = helyes / (helyes + helytelen) * 100;
+                if (helyes / (helyes + helytelen) * 100 > 79) {
+                    document.getElementById("osszeshelyesszazalek").style.color = "green";
+                } else {
+                    document.getElementById("osszeshelyesszazalek").style.color = "red";
+                }
+                document.getElementById("helyesszam").innerHTML = helyes;
+                document.getElementById("helyesszazalek").innerHTML = helyes / (helyes + helytelen) * 100;
+                document.getElementById("helytelenszam").innerHTML = helytelen;
+                document.getElementById("helytelenszazalek").innerHTML = helytelen / (helyes + helytelen) * 100;
+            }
+            function check() {
+                if (document.getElementById("inf").value == list.data[feladatid][0])
+                {
+                    document.getElementById("inf").style.backgroundColor = "green";
+                } else {
+                    document.getElementById("inf").style.backgroundColor = "red";
+                    document.getElementById("infhelyes").innerHTML = list.data[feladatid][0];
+                    hibaszam++;
+                }
+                if (document.getElementById("e3").value == list.data[feladatid][1])
+                {
+                    document.getElementById("e3").style.backgroundColor = "green";
+                } else {
+                    document.getElementById("e3").style.backgroundColor = "red";
+                    document.getElementById("e3helyes").innerHTML = list.data[feladatid][1];
+                    hibaszam++;
+                }
+                if (document.getElementById("pra").value == list.data[feladatid][2])
+                {
+                    document.getElementById("pra").style.backgroundColor = "green";
+                } else {
+                    document.getElementById("pra").style.backgroundColor = "red";
+                    document.getElementById("prahelyes").innerHTML = list.data[feladatid][2];
+                    hibaszam++;
+                }
+                if (document.getElementById("per").value == list.data[feladatid][3])
+                {
+                    document.getElementById("per").style.backgroundColor = "green";
+                } else {
+                    document.getElementById("per").style.backgroundColor = "red";
+                    document.getElementById("perhelyes").innerHTML = list.data[feladatid][3];
+                    hibaszam++;
+                }
+            }
+            function checkandnext() {
+                console.log("Checkandnext");
+                if (checked != true) {
+                    check();
+                    checked = true;
+                    if (hibaszam == 0) {
+                        helyes++;
+                    } else {
+                        helytelen++;
+                    }
+                    showscore();
+                    document.getElementById("gomb").innerText = "Tovább";
+                } else {
+                    document.getElementById("gomb").innerText = "Ellenőrzés";
+                    if (helyes + helytelen == osszesfeladat) {
+                    alert("A végére értél! Az OK-ra kattintva megtekintheted eredményedet!");
+                    document.getElementById("feladat").style.display = "none";
+                    document.getElementById("fajl").style.display = "none";
+                    } else {
+                    feladatid = getfeladatid();
+                    shownext();
+                    checked = false;
+                }
+                }
+            }
+        </script>
+    </fieldset>
+    <fieldset id="feladat">
+        <legend>Feladat</legend>
+        <p id="szo" style="font-weight:bold;"></p>
+        <p>Szótári alak: <input type="text" name="inf" id="inf"><span id="infhelyes" style="color:green;"></span></p>
+        <p>E/3 (ha nem rendhagyó, akkor hagyd üresen): <input type="text" name="e3" id="e3"><span id="e3helyes" style="color:green;"></span></p>
+        <p>Präteritum: <input type="text" name="pra" id="pra"><span id="prahelyes" style="color:green;"></span></p>
+        <p>Prefekt: <input type="text" name="per" id="per"><span id="perhelyes" style="color:green;"></span></p>
+        <button onclick="checkandnext()" id="gomb">Ellenőrzés</button>
+    </fieldset>
+    <fieldset>
+        <legend>Eredmény</legend>
+        <p>Megoldott feladatok: <span id="megoldott"></span>/<span id="osszesen"></span></span></p>
+        <p>Százalék: <span id="osszeshelyesszazalek" style="font-weight: bold;"></span>%</p>
+        <p>Helyes: <span id="helyesszam" style="color: green;"></span> <span id="helyesszazalek"></span>%</p>
+        <p>Helytelen: <span id="helytelenszam" style="color: red;"></span> <span id="helytelenszazalek"></span>%</p>
+    </fieldset>
+</body>
+</html>
