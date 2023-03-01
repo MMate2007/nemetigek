@@ -26,7 +26,9 @@
             file.addEventListener("loadend", () => {
                 csv = file.result;
                 list = Papa.parse(csv);
-                list.data.pop();
+                if (list.data[list.data.length - 1] == '') {
+                    list.data.splice(list.data.length - 1, 1);
+                }
                 helyes = 0;
                 helytelen = 0;
                 checked = false;
@@ -126,7 +128,6 @@
                 }
             }
             function checkandnext() {
-                console.log("Checkandnext");
                 if (checked != true) {
                     check();
                     checked = true;
