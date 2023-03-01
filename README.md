@@ -28,3 +28,7 @@ Csak néhány kritériuma van a CSV-fájlnak/táblázatnak:
 - Az első sort figyelmen kívül hagyja a program, így az bármi lehet
 - Az első oszlopban az ige szótári alakja kell, a másodikban az E/3, ha van, a harmadikban a präteritum, a negyedikben a perfekt, az ötödikben a magyar megfelelője. Fontos, hogy ne rövidítsünk, mert a rövidítést nem tudja feloldani a program, tehát *csak* a rövidített lesz a jó megoldás.
 - (A CSV-fájl utolsó sorát a program figyelmen kívül hagyja, mert ez általában egy üres sor. Ha Excelből készítettük a fájlt, akkor ezzel nem kell foglalkozni.)
+
+---
+
+Ez a projekt a Papa Parse nevű könyvtárat használja, amely a MIT lincensz alatt érhető el.
