@@ -17,6 +17,20 @@
         button {
             border-radius: 50px;
         }
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 7px;
+        }
+        table tr td:first-child {
+            float: right;
+        }
+        table tr td:last-child {
+            float: left;
+        }
+        p#szo {
+            font-size: x-large;
+        }
         @media (prefers-color-scheme: dark) {
             body {
                 background-color: black;
@@ -211,10 +225,24 @@
     <fieldset id="feladat">
         <legend>Feladat</legend>
         <p id="szo" style="font-weight:bold;"></p>
-        <p>Szótári alak: <input type="text" name="inf" id="inf"><span id="infhelyes" style="color:green;"></span></p>
-        <p>E/3 (ha nem rendhagyó, akkor hagyd üresen): <input type="text" name="e3" id="e3"><span id="e3helyes" style="color:green;"></span></p>
-        <p>Präteritum: <input type="text" name="pra" id="pra"><span id="prahelyes" style="color:green;"></span></p>
-        <p>Prefekt: <input type="text" name="per" id="per"><span id="perhelyes" style="color:green;"></span></p>
+        <table>
+            <tr><td>Szótári alak:</td>
+                <td><input type="text" name="inf" id="inf"></td>
+                <td><span id="infhelyes" style="color:green;"></span></td>
+            </tr>
+            <tr><td>E/3:</td>
+                <td><input type="text" name="e3" id="e3"></td>
+                <td><span id="e3helyes" style="color:green;"></span></td>
+            </tr>
+            <tr><td>Präteritum:</td>
+                <td><input type="text" name="pra" id="pra"></td>
+                <td><span id="prahelyes" style="color:green;"></span></td>
+            </tr>
+            <tr><td>Prefekt:</td>
+                <td><input type="text" name="per" id="per"></td>
+                <td><span id="perhelyes" style="color:green;"></span></td>
+            </tr>
+        </table>
         <button onclick="checkandnext()" id="gomb">Ellenőrzés</button>
     </fieldset>
     <fieldset id="eredmeny">
