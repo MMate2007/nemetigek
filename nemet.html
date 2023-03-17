@@ -7,6 +7,16 @@
     <title>Német igék gyakorlása</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js" integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
+        body {
+            text-align: center;
+        }
+        input[type=text] {
+            border: none;
+            border-bottom: 2px black solid;
+        }
+        button {
+            border-radius: 50px;
+        }
         @media (prefers-color-scheme: dark) {
             body {
                 background-color: black;
@@ -16,16 +26,17 @@
                 background-color: black;
                 border: 2px white solid;
                 color: white;
-                border-radius: 50px;
             }
             button:hover {
                 background-color: white;
                 color: black;
             }
             input[type=text] {
-                background-color: black;
-                color: white;
-            }
+            border: none;
+            border-bottom: 2px white solid;
+            background-color: black;
+            color: white;
+        }
         }
     </style>
 </head>
@@ -33,6 +44,7 @@
     <fieldset id="fajl">
         <legend>Fájl</legend>
         <input type="file" name="inputfile" id="inputfile" onchange="read()">
+        <p>Válasszunk ki egy CSV-fájlt, amely tartalmazza a gyakorolni kívánt szavakat!</p>
         <script>
             var csv = null;
             var list = null;
@@ -61,6 +73,7 @@
                 feladatid = getfeladatid();
                 shownext();
                 showscore();
+                document.getElementById("fajl").style.display = "none";
             });
             file.readAsText(document.getElementById("inputfile").files[0]); }
             function getfeladatid() {
@@ -88,14 +101,26 @@
                     document.getElementById("feladat").style.display = "none";
                 } else {
                 document.getElementById("szo").innerHTML = list.data[feladatid][4];
-                document.getElementById("inf").style.backgroundColor = "white";
-                document.getElementById("e3").style.backgroundColor = "white";
-                document.getElementById("pra").style.backgroundColor = "white";
-                document.getElementById("per").style.backgroundColor = "white";
+                // document.getElementById("inf").style.backgroundColor = "white";
+                // document.getElementById("e3").style.backgroundColor = "white";
+                // document.getElementById("pra").style.backgroundColor = "white";
+                // document.getElementById("per").style.backgroundColor = "white";
                 document.getElementById("inf").value = "";
                 document.getElementById("e3").value = "";
                 document.getElementById("pra").value = "";
                 document.getElementById("per").value = "";
+                var szin = "black";
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    szin = "white";
+                }
+                document.getElementById("inf").style.borderBottomColor = szin;
+                document.getElementById("inf").style.color = szin;
+                document.getElementById("e3").style.borderBottomColor = szin;
+                document.getElementById("e3").style.color = szin;
+                document.getElementById("pra").style.borderBottomColor = szin;
+                document.getElementById("pra").style.color = szin;
+                document.getElementById("per").style.borderBottomColor = szin;
+                document.getElementById("per").style.color = szin;
                 hibaszam = 0;
                 document.getElementById("infhelyes").innerHTML = "";
                 document.getElementById("e3helyes").innerHTML = "";
@@ -118,33 +143,41 @@
             function check() {
                 if (document.getElementById("inf").value == list.data[feladatid][0])
                 {
-                    document.getElementById("inf").style.backgroundColor = "green";
+                    document.getElementById("inf").style.borderBottomColor = "green";
+                    document.getElementById("inf").style.color = "green";
                 } else {
-                    document.getElementById("inf").style.backgroundColor = "red";
+                    document.getElementById("inf").style.color = "red";
+                    document.getElementById("inf").style.borderBottomColor = "red";
                     document.getElementById("infhelyes").innerHTML = list.data[feladatid][0];
                     hibaszam++;
                 }
                 if (document.getElementById("e3").value == list.data[feladatid][1])
                 {
-                    document.getElementById("e3").style.backgroundColor = "green";
+                    document.getElementById("e3").style.color = "green";
+                    document.getElementById("e3").style.borderBottomColor = "green";
                 } else {
-                    document.getElementById("e3").style.backgroundColor = "red";
+                    document.getElementById("e3").style.color = "red";
+                    document.getElementById("e3").style.borderBottomColor = "red";
                     document.getElementById("e3helyes").innerHTML = list.data[feladatid][1];
                     hibaszam++;
                 }
                 if (document.getElementById("pra").value == list.data[feladatid][2])
                 {
-                    document.getElementById("pra").style.backgroundColor = "green";
+                    document.getElementById("pra").style.color = "green";
+                    document.getElementById("pra").style.borderBottomColor = "green";
                 } else {
-                    document.getElementById("pra").style.backgroundColor = "red";
+                    document.getElementById("pra").style.color = "red";
+                    document.getElementById("pra").style.borderBottomColor = "red";
                     document.getElementById("prahelyes").innerHTML = list.data[feladatid][2];
                     hibaszam++;
                 }
                 if (document.getElementById("per").value == list.data[feladatid][3])
                 {
-                    document.getElementById("per").style.backgroundColor = "green";
+                    document.getElementById("per").style.color = "green";
+                    document.getElementById("per").style.borderBottomColor = "green";
                 } else {
-                    document.getElementById("per").style.backgroundColor = "red";
+                    document.getElementById("per").style.color = "red";
+                    document.getElementById("per").style.borderBottomColor = "red";
                     document.getElementById("perhelyes").innerHTML = list.data[feladatid][3];
                     hibaszam++;
                 }
@@ -184,7 +217,7 @@
         <p>Prefekt: <input type="text" name="per" id="per"><span id="perhelyes" style="color:green;"></span></p>
         <button onclick="checkandnext()" id="gomb">Ellenőrzés</button>
     </fieldset>
-    <fieldset>
+    <fieldset id="eredmeny">
         <legend>Eredmény</legend>
         <p>Megoldott feladatok: <span id="megoldott"></span>/<span id="osszesen"></span></span></p>
         <p>Százalék: <span id="osszeshelyesszazalek" style="font-weight: bold;"></span>%</p>
