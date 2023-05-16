@@ -13,6 +13,7 @@
         input[type=text] {
             border: none;
             border-bottom: 2px black solid;
+            width: 100%;
         }
         button {
             border-radius: 50px;
@@ -51,6 +52,9 @@
             background-color: black;
             color: white;
         }
+        }
+        span.helyes {
+            padding-left: 5px;
         }
     </style>
 </head>
@@ -228,19 +232,19 @@
         <table>
             <tr><td>Szótári alak:</td>
                 <td><input type="text" name="inf" id="inf"></td>
-                <td><span id="infhelyes" style="color:green;"></span></td>
+                <td><span id="infhelyes" style="color:green;" class="helyes"></span></td>
             </tr>
             <tr><td>E/3:</td>
                 <td><input type="text" name="e3" id="e3"></td>
-                <td><span id="e3helyes" style="color:green;"></span></td>
+                <td><span id="e3helyes" style="color:green;" class="helyes"></span></td>
             </tr>
             <tr><td>Präteritum:</td>
                 <td><input type="text" name="pra" id="pra"></td>
-                <td><span id="prahelyes" style="color:green;"></span></td>
+                <td><span id="prahelyes" style="color:green;" class="helyes"></span></td>
             </tr>
             <tr><td>Prefekt:</td>
                 <td><input type="text" name="per" id="per"></td>
-                <td><span id="perhelyes" style="color:green;"></span></td>
+                <td><span id="perhelyes" style="color:green;" class="helyes"></span></td>
             </tr>
         </table>
         <button onclick="checkandnext()" id="gomb">Ellenőrzés</button>
